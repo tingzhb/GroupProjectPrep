@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 	Vector3 newCorods;
 	Vector3 newDestination;
 	private Quaternion targetRotation;
-
+	
 	void Update() {
 
  		if (Input.GetMouseButton(0)) {
@@ -23,12 +23,13 @@ public class PlayerMovement : MonoBehaviour
 
 	void RotatePlayerToDestination() {
 		targetRotation = Quaternion.FromToRotation(Vector3.forward, newDestination);
-		transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, 720 * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 45 * Time.fixedDeltaTime);
 		
 	}
 
 	void MovePlayerToDestination() {
-		transform.position = Vector3.MoveTowards(transform.position, newDestination, 5 * Time.deltaTime);
+		
+		transform.position = Vector3.MoveTowards(transform.position, newDestination, 0.5f * Time.fixedDeltaTime);
 	}
 
 	void GetPlayerDestination() {
