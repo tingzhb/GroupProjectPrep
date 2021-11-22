@@ -7,7 +7,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 	private Ray ray;
-	RaycastHit targetDestinaton;
+	RaycastHit hit;
+	Vector3 newCorods;
+	Vector3 newDestination;
 	private Quaternion targetRotation;
 
 	void Update() {
@@ -20,17 +22,19 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	void RotatePlayerToDestination() {
-		targetRotation = Quaternion.FromToRotation(Vector3.forward, targetDestinaton.point);
-		transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, 360 * Time.deltaTime);
+		targetRotation = Quaternion.FromToRotation(Vector3.forward, newDestination);
+		transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, 720 * Time.deltaTime);
 		
 	}
 
 	void MovePlayerToDestination() {
-		Physics.Raycast(ray, out targetDestinaton, 100);
-		transform.position = Vector3.MoveTowards(transform.position, targetDestinaton.point, 5 * Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, newDestination, 5 * Time.deltaTime);
 	}
 
 	void GetPlayerDestination() {
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Physics.Raycast(ray, out hit, 100);
+		newCorods = hit.point;
+		newDestination = new Vector3(newCorods.x, 0, newCorods.z);
 	}
 }
